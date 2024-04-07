@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from io import StringIO
+from typing import Dict
 
 import pandas
+from fastapi import HTTPException
 
 
 def convert_arabic_to_roman(number: int) -> str:
@@ -37,11 +39,18 @@ def convert_roman_to_arabic(number: str) -> int:
     return result
 
 
-def average_age_by_position(file):
-    data_file = pandas.read_csv(file, delimiter=',')
-    dAge = set(data_file.groupby('Должность')['Возраст'].transform('mean'))
-    dPos = set(data_file['Должность'])
-    return dict(zip(dPos, dAge))
+def average_age_by_position(file) -> Dict[str, float]:
+    try:
+        data_file = pandas.read_csv(file, delimiter=',')
+
+        required_columns = ["Имя", "Возраст", "Должность"]
+        if not set(required_columns).issubset(data_file.columns):
+            raise ValueError("Отсутствуют необходимые колонки.")
+
+        result = data_file.groupby('Должность')['Возраст'].mean().to_dict()
+        return result
+    except Exception:
+        raise HTTPException(status_code=400, detail="Ошибка обработки файла")
 
 
 """
