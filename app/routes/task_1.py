@@ -17,8 +17,22 @@ router = APIRouter(tags=["Стажировка"])
 """
 @router.post("/find_in_different_registers", description="Задание_1. Удаление дублей")
 async def find_in_different_registers(words: list[str]) -> list[str]:
-    """Описание."""
+    """a - список уникальных повторяющихся значений в списке с учетом регистра."""
 
-    result = []
+    a = set()
+    for i in words:
+        if words.count(i) > 1:
+            a.add(i.lower())
+
+    """ В result записываются уникальные значения, которых нет в a. """
+
+    #result = []
+    result = list(
+        set(
+            x.lower()
+            for x in words
+            if x.lower() not in a
+        )
+    )
 
     return result

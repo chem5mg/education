@@ -27,6 +27,13 @@ async def convert_number(number: Annotated[int | str, Body()]) -> ConverterRespo
     }
     """
 
-    converter_response = ConverterResponse()
-
+    if type(number) is int and 0 < number < 4000:
+        roman = convert_arabic_to_roman(number)
+        arabic = number
+    elif type(number) is str:
+        arabic = convert_roman_to_arabic(number.upper())
+        roman = number
+    else:
+        raise Exception("не поддерживается")
+    converter_response = ConverterResponse(arabic = arabic, roman = roman)
     return converter_response
