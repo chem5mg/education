@@ -1,6 +1,9 @@
-from fastapi import APIRouter
+from re import match
+from typing import Annotated
 
-from app.core import DataGenerator
+from fastapi import APIRouter, Body
+
+from app.core import DataGenerator, YAMLWriter, CSVWriter, JSONWriter
 
 router = APIRouter(tags=["API для хранения файлов"])
 
@@ -22,12 +25,26 @@ API должно принимать json, по типу:
 (Подумать, как переисползовать код из задания 5)
 """
 @router.post("/generate_file", description="Задание_6. Конвертер")
-async def generate_file() -> int:
+async def generate_file(file_type: Annotated[str, Body()], matrix_size: Annotated[int, Body()]) -> int:
     """Описание."""
 
+    path = r'D:\github\education\test_task_6'
+
     data = DataGenerator()
-    data.generate()
-    data.to_file()
+    data.generate(matrix_size)
+    match file_type.lower:
+        case "json":
+            json_writer = JSONWriter()
+            data.to_file(path, json_writer.write(data.data))
+        case "csv":
+            csv_writer = CSVWriter()
+            data.to_file(path, csv_writer.write(data.data))
+        case "yaml":
+            yaml_writer = YAMLWriter()
+            data.to_file(path, yaml_writer.write(data.data))
+        case _:
+            raise Exception("Укажите формат json, csv или yaml")
+
     file_id: int = data.file_id
 
     return file_id

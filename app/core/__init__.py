@@ -1,8 +1,13 @@
+import csv
+import json
+import random
+import shutil
 from abc import ABC, abstractmethod
 from io import StringIO
 from typing import Dict
 
 import pandas
+import yaml
 from fastapi import HTTPException
 
 
@@ -75,6 +80,7 @@ class BaseWriter(ABC):
         :param data: полученные данные
         :return: Объект StringIO с данными из data
         """
+        #return StringIO('\n'.join('\t'.join(map(str, row)) for row in data))
         pass
 
 
@@ -83,23 +89,34 @@ class JSONWriter(BaseWriter):
 
     """Ваша реализация"""
 
-    pass
+    def write(self, data: list[list[int, str, float]]) -> StringIO:
+        output = StringIO()
+        json.dump(data, output)
+        output.seek(0)
+        return output
 
 
-class CSVWriter:
+class CSVWriter(BaseWriter):
     """Потомок BaseWriter с переопределением метода write для генерации файла в csv формате"""
 
     """Ваша реализация"""
+    def write(self, data: list[list[int, str, float]]) -> StringIO:
+        output = StringIO()
+        writer = csv.writer(output)
+        writer.writerows(data)
+        output.seek(0)
+        return output
 
-    pass
-
-
-class YAMLWriter:
+class YAMLWriter(BaseWriter):
     """Потомок BaseWriter с переопределением метода write для генерации файла в yaml формате"""
 
     """Ваша реализация"""
 
-    pass
+    def write(self, data: list[list[int, str, float]]) -> StringIO:
+        output = StringIO()
+        yaml.dump(data, output)
+        output.seek(0)
+        return output
 
 
 class DataGenerator:
@@ -107,13 +124,22 @@ class DataGenerator:
         self.data: list[list[int, str, float]] = data
         self.file_id = None
 
+        self.db = {}
+
     def generate(self, matrix_size) -> None:
         """Генерирует матрицу данных заданного размера."""
 
-        data: list[list[int, str, float]] = []
+        #data: list[list[int, str, float]] = []
+        data = []
+
         """Ваша реализация"""
+        for i in range(5):
+            data.append([random.randint(0, 9), "A:" + str(random.randint(0, 9)), random.randint(0, 9) + 0.5])
+
+
 
         self.data = data
+
 
     def to_file(self, path: str, writer) -> None:
         """
@@ -124,5 +150,8 @@ class DataGenerator:
         """
 
         """Ваша реализация"""
+        with open(path, 'wb+') as buffer:
+            shutil.copyfileobj(writer.file, buffer)
 
-        pass
+        self.db[id(writer)] = writer
+
