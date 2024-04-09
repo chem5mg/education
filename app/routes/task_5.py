@@ -21,7 +21,7 @@ b.	Добавить архивирование к post запросу, то ес
 с*.Добавить аннотации типов.
 """
 
-d = {}
+d = {} #симуляция базы данных с id и путями к файлам
 ID = 0
 @router.post("/upload_file", description="Задание_5. API для хранения файлов")
 async def upload_file(u_file: UploadFile = File(...)):
@@ -45,8 +45,7 @@ async def upload_file(u_file: UploadFile = File(...)):
 
     d[ID] = u_file.filename
     ID += 1
-
-    return ID-1
+    return ID
     # return file_id
 
 

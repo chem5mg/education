@@ -1,3 +1,4 @@
+import time
 from re import match
 from typing import Annotated
 
@@ -28,11 +29,11 @@ API должно принимать json, по типу:
 async def generate_file(file_type: Annotated[str, Body()], matrix_size: Annotated[int, Body()]) -> int:
     """Описание."""
 
-    path = r'D:\github\education\test_task_6'
+    path = f'test_task_6/{time.strftime("%Y%m%d-%H%M%S")}.{file_type}'
 
     data = DataGenerator()
     data.generate(matrix_size)
-    match file_type.lower:
+    match file_type.lower():
         case "json":
             json_writer = JSONWriter()
             data.to_file(path, json_writer.write(data.data))
@@ -44,6 +45,7 @@ async def generate_file(file_type: Annotated[str, Body()], matrix_size: Annotate
             data.to_file(path, yaml_writer.write(data.data))
         case _:
             raise Exception("Укажите формат json, csv или yaml")
+
 
     file_id: int = data.file_id
 

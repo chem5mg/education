@@ -118,23 +118,22 @@ class YAMLWriter(BaseWriter):
         output.seek(0)
         return output
 
-
+db = {} #симуляция базы данных с id и путями к файлам
 class DataGenerator:
     def __init__(self, data: list[list[int, str, float]] = None):
         self.data: list[list[int, str, float]] = data
         self.file_id = None
 
-        self.db = {}
+
 
     def generate(self, matrix_size) -> None:
         """Генерирует матрицу данных заданного размера."""
 
-        #data: list[list[int, str, float]] = []
-        data = []
+        data: list[list[int, str, float]] = []
 
         """Ваша реализация"""
         for i in range(5):
-            data.append([random.randint(0, 9), "A:" + str(random.randint(0, 9)), random.randint(0, 9) + 0.5])
+            data.append((random.randint(0, 9), "A:" + str(random.randint(0, 9)), random.randint(0, 9) + 0.5))
 
 
 
@@ -150,8 +149,14 @@ class DataGenerator:
         """
 
         """Ваша реализация"""
-        with open(path, 'wb+') as buffer:
-            shutil.copyfileobj(writer.file, buffer)
+        with open(path, 'w') as buffer:
+            writer.seek(0)
+            shutil.copyfileobj(writer, buffer)
 
-        self.db[id(writer)] = writer
+        for i in writer:
+            print(i)
+
+        db[id(writer)] = path
+        self.file_id = id(writer)
+
 
