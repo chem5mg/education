@@ -7,3 +7,4 @@
 [2024-04-10 17:52:12,173] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/new_request | 200 |
 [2024-04-10 17:52:12,339] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/new_request | 200 |
 [2024-04-10 17:52:12,506] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/new_request | 200 |
+[2024-04-10 17:54:06,706] {task_7.py:35} INFO - | 0.0 | GET | http://127.0.0.1:8000/docs | 200 |
