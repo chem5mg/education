@@ -1,0 +1,9 @@
+[2024-04-10 17:49:28,277] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/docs | 200 |
+[2024-04-10 17:49:28,815] {task_7.py:35} INFO - | 0.11 | GET | http://localhost:8000/openapi.json | 200 |
+[2024-04-10 17:50:26,780] {task_7.py:35} INFO - | 0.01 | POST | http://localhost:8000/generate_file | 200 |
+[2024-04-10 17:52:08,811] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/new_request | 200 |
+[2024-04-10 17:52:11,641] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/new_request | 200 |
+[2024-04-10 17:52:11,944] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/new_request | 200 |
+[2024-04-10 17:52:12,173] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/new_request | 200 |
+[2024-04-10 17:52:12,339] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/new_request | 200 |
+[2024-04-10 17:52:12,506] {task_7.py:35} INFO - | 0.0 | GET | http://localhost:8000/new_request | 200 |

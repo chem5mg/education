@@ -132,9 +132,8 @@ class DataGenerator:
         data: list[list[int, str, float]] = []
 
         """Ваша реализация"""
-        for i in range(5):
+        for i in range(matrix_size):
             data.append((random.randint(0, 9), "A:" + str(random.randint(0, 9)), random.randint(0, 9) + 0.5))
-
 
 
         self.data = data

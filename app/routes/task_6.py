@@ -1,8 +1,8 @@
 import time
-from re import match
 from typing import Annotated
 
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, HTTPException, status
+from requests import HTTPError
 
 from app.core import DataGenerator, YAMLWriter, CSVWriter, JSONWriter
 
@@ -29,6 +29,9 @@ API должно принимать json, по типу:
 async def generate_file(file_type: Annotated[str, Body()], matrix_size: Annotated[int, Body()]) -> int:
     """Описание."""
 
+    if not 4 <= matrix_size < 15:
+        raise HTTPError(status_code=400, detail="Неверный размер матрицы")
+
     path = f'test_task_6/{time.strftime("%Y%m%d-%H%M%S")}.{file_type}'
 
     data = DataGenerator()
@@ -44,7 +47,7 @@ async def generate_file(file_type: Annotated[str, Body()], matrix_size: Annotate
             yaml_writer = YAMLWriter()
             data.to_file(path, yaml_writer.write(data.data))
         case _:
-            raise Exception("Укажите формат json, csv или yaml")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Укажите формат json, csv или yaml")
 
 
     file_id: int = data.file_id
