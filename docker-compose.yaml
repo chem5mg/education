@@ -3,7 +3,7 @@ version: '3.8'
 services:
   fastapi:
     build: .
-    command: sh -c "uvicorn app.main:app --reload --port=800 --host=0.0.0.0"
+    command: sh -c "uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
     ports:
       - "8000:8000"
     depends_on:
@@ -20,9 +20,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./app:/src/app
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      
+      - ./app:/app
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  
+     
 
 volumes:
   postgres_data:

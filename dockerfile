@@ -1,6 +1,6 @@
 FROM python:3.10-buster
 
-WORKDIR /src
+WORKDIR .
 
 COPY requirements.txt requirements.txt
 
